@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "create-db-migration": "db-migrate create $NAME --sql-file",
+    "migrate-db": "db-migrate up",
+    "rollback-last-db-migration": "db-migrate down",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "lint": "npx eslint --fix *.js src tests *.js",
     "format": "prettier --write \"src/**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
     "test": "NODE_ENV=test jest",
+    "test:migrate-db": "db-migrate up -e test",
     "precommit": "lint-staged && npm run test"
   },
   "keywords": [],
@@ -27,6 +31,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jest": "^25.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
     "jest": "^27.4.3",
@@ -38,7 +43,7 @@
   },
   "lint-staged": {
     "**/*.js": [
-      "./node_modules/.bin/eslint --fix --max-warnings=0",
+      "npm run lint",
       "npm run format",
       "git add"
     ]
