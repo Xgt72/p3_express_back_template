@@ -11,9 +11,20 @@
     "dev": "nodemon src/index.js",
     "lint": "npx eslint --fix *.js src tests *.js",
     "format": "prettier --write \"src/**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test jest --testRunner='jest-circus/runner' --maxWorkers=1",
     "test:migrate-db": "db-migrate up -e test",
-    "precommit": "lint-staged && npm run test"
+    "precommit": "lint-staged && npm run test",
+    "init:husky": "rm -rf ./.husky && npx husky install && npx husky add .husky/pre-commit 'npx lint-staged'"
+  },
+  "jest": {
+    "testRunner": "jest-circus/runner",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setupTests.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -35,6 +46,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
     "jest": "^27.4.3",
+    "jest-circus": "^27.4.2",
     "lint-staged": "^12.1.2",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
